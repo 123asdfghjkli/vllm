@@ -178,6 +178,18 @@ def mla_decode_kvcache_cpu(
         out, query, kv_cache, scale, block_tables, seq_lens
     )
 
+def merge_attn_states1(
+    output: torch.Tensor,
+    prefix_output: torch.Tensor,
+    prefix_lse: torch.Tensor,
+    suffix_output: torch.Tensor,
+    suffix_lse: torch.Tensor,
+    output_lse: torch.Tensor | None = None,
+) -> None:
+    torch.ops._C.merge_attn_states1(
+        output, output_lse, prefix_output, prefix_lse, suffix_output, suffix_lse
+    )
+
 
 # merge attn states ops
 def merge_attn_states(
@@ -191,6 +203,8 @@ def merge_attn_states(
     torch.ops._C.merge_attn_states(
         output, output_lse, prefix_output, prefix_lse, suffix_output, suffix_lse
     )
+
+
 
 
 def convert_vertical_slash_indexes(
